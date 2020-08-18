@@ -15,10 +15,10 @@
   along with The Colony Network. If not, see <http://www.gnu.org/licenses/>.
 */
 
-pragma solidity 0.5.8;
+pragma solidity 0.7.0;
 
 
-contract ColonyDataTypes {
+interface ColonyDataTypes {
   // Events
 
   /// @notice Event logged when Colony is initialised
@@ -288,5 +288,4 @@ contract ColonyDataTypes {
     uint256 fundingPotId;
   }
 
-  uint256 constant MAX_PAYOUT = 2**128 - 1; // 340,282,366,920,938,463,463 WADs
 }

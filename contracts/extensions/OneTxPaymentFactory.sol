@@ -15,7 +15,7 @@
   along with The Colony Network. If not, see <http://www.gnu.org/licenses/>.
 */
 
-pragma solidity 0.5.8;
+pragma solidity 0.7.0;
 pragma experimental ABIEncoderV2;
 
 import "./../colony/ColonyAuthority.sol";
@@ -28,7 +28,7 @@ import "./OneTxPayment.sol";
 contract OneTxPaymentFactory is ExtensionFactory, ColonyDataTypes { // ignore-swc-123
   mapping (address => OneTxPayment) public deployedExtensions;
 
-  function deployExtension(address _colony) external {
+  function deployExtension(address _colony) external override {
     require(IColony(_colony).hasUserRole(msg.sender, 1, ColonyRole.Root), "colony-extension-user-not-root"); // ignore-swc-123
     require(deployedExtensions[_colony] == OneTxPayment(0x00), "colony-extension-already-deployed");
     OneTxPayment newExtensionAddress = new OneTxPayment(_colony);
@@ -36,7 +36,7 @@ contract OneTxPaymentFactory is ExtensionFactory, ColonyDataTypes { // ignore-sw
     emit ExtensionDeployed("OneTxPayment", _colony, address(newExtensionAddress));
   }
 
-  function removeExtension(address _colony) external {
+  function removeExtension(address _colony) external override {
     require(IColony(_colony).hasUserRole(msg.sender, 1, ColonyRole.Root), "colony-extension-user-not-root"); // ignore-swc-123
     deployedExtensions[_colony] = OneTxPayment(0x00);
     emit ExtensionRemoved("OneTxPayment", _colony);

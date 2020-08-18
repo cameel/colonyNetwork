@@ -15,7 +15,7 @@
   along with The Colony Network. If not, see <http://www.gnu.org/licenses/>.
 */
 
-pragma solidity 0.5.8;
+pragma solidity 0.7.0;
 
 import "./../../lib/dappsys/math.sol";
 import "./../common/CommonStorage.sol";
@@ -91,6 +91,7 @@ contract ColonyStorage is CommonStorage, ColonyDataTypes, ColonyNetworkDataTypes
   mapping (address => mapping (address => mapping (uint256 => uint256))) obligations; // Storage slot 29
 
   // Modifiers
+  uint256 constant MAX_PAYOUT = 2**128 - 1; // 340,282,366,920,938,463,463 WADs
 
   modifier validPayoutAmount(uint256 _amount) {
     require(_amount <= MAX_PAYOUT, "colony-payout-too-large");
@@ -204,7 +205,7 @@ contract ColonyStorage is CommonStorage, ColonyDataTypes, ColonyNetworkDataTypes
     _;
   }
 
-  modifier auth {
+  modifier auth override {
     require(isAuthorized(msg.sender, 1, msg.sig), "ds-auth-unauthorized");
     _;
   }
