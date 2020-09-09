@@ -15,7 +15,7 @@
   along with The Colony Network. If not, see <http://www.gnu.org/licenses/>.
 */
 
-pragma solidity 0.5.8;
+pragma solidity 0.7.0;
 pragma experimental ABIEncoderV2;
 
 import "./../colony/ColonyDataTypes.sol";
@@ -32,7 +32,7 @@ contract VotingReputationFactory is ExtensionFactory, ColonyDataTypes { // ignor
     _;
   }
 
-  function deployExtension(address _colony) external isRoot(_colony) {
+  function deployExtension(address _colony) external override isRoot(_colony) {
     require(deployedExtensions[_colony] == VotingReputation(0x00), "colony-extension-already-deployed");
     VotingReputation newExtensionAddress = new VotingReputation(_colony);
     deployedExtensions[_colony] = newExtensionAddress;
@@ -40,7 +40,7 @@ contract VotingReputationFactory is ExtensionFactory, ColonyDataTypes { // ignor
     emit ExtensionDeployed("VotingReputation", _colony, address(newExtensionAddress));
   }
 
-  function removeExtension(address _colony) external isRoot(_colony) {
+  function removeExtension(address _colony) external override isRoot(_colony) {
     deployedExtensions[_colony] = VotingReputation(0x00);
 
     emit ExtensionRemoved("VotingReputation", _colony);
